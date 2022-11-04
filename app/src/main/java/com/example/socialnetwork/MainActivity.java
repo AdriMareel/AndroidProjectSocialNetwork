@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
         username = (EditText) findViewById(R.id.editTextUsername);
         password = (EditText) findViewById(R.id.editTextPassword);
 
+        //Listener sur le bouton submit
         submit = findViewById(R.id.submitButton);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,8 +43,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openHomeActivity(){
-        Intent intent = new Intent(this,HomeActivity.class);
+        //Intent intent = new Intent(this,HomeActivity.class);
+        //startActivity(intent);
+
+        Intent intent = new Intent(this,NavigationActivity.class);
         startActivity(intent);
+        finish();
     }
 
 
