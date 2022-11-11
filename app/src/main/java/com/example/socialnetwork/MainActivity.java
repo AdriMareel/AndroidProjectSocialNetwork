@@ -11,13 +11,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.*;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,14 +39,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         username = (EditText) findViewById(R.id.editTextUsername);
         password = (EditText) findViewById(R.id.editTextPassword);
-
-
-
-
-        //Listeners
         submit = findViewById(R.id.submitButton);
         linkSignIn = findViewById(R.id.til_signin);
-
 
         //redirect sign in
         linkSignIn.setOnClickListener(new View.OnClickListener() {
@@ -52,49 +51,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-        //push to database
+        //check Login infos
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //cas où il n'y a pas d'erreur de connexion
                 if(!username.getText().toString().equals("") && !password.getText().toString().equals("")){
-
-                    //push data into database
-                    Map<String, Object> data = new HashMap<>();
-                    data.put("password", password.getText().toString());
-                    data.put("username",username.getText().toString());
-
-                    db.collection("users").add(data).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                        @Override
-                        public void onSuccess(DocumentReference documentReference) {
-                            Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                        }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w(TAG, "Error adding document", e);
-                            }
-                        });
-
-
-                    System.out.println("********* PUSH DATABASE *************");
-
-                    //switching activity
-                    openHomeActivity();
-
-                }
-
-                else{
-                    System.out.print("Veuillez rensigner votre username et mdp");
+                    fetchDatabase(username.getText().toString(), password.getText().toString());
                 }
             }
         });
     }
 
-    public void openHomeActivity(){
+    public void openNavigationActivity(){
         Intent intent = new Intent(this,NavigationActivity.class);
         startActivity(intent);
         finish();
@@ -103,6 +71,30 @@ public class MainActivity extends AppCompatActivity {
     public void openSignInActivity(){
         Intent intent = new Intent(this,SignInActivity.class);
         startActivity(intent);
+    }
+
+    public void fetchDatabase(String username,String password){
+
+        db.collection("users")
+                .whereEqualTo("username", username)
+                .whereEqualTo("password",password)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                System.out.println("*************** ICI ***************");
+                                System.out.println(document.getId() + " => " + document.getData());
+                                System.out.println("*************** ICI ***************");
+                                openNavigationActivity();
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
     }
 
 
