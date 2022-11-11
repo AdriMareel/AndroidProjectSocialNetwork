@@ -13,6 +13,7 @@ import android.widget.*;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
@@ -24,6 +25,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
     EditText username,password;
     Button submit;
+    TextInputLayout linkSignIn;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
@@ -36,17 +38,29 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        //Listener sur le bouton submit
+        //Listeners
         submit = findViewById(R.id.submitButton);
+        linkSignIn = findViewById(R.id.til_signin);
+
+
+        //redirect sign in
+        linkSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //open Sign In Activity and close the main one
+                openSignInActivity();
+            }
+        });
+
+
+
+
+        //push to database
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //cas où il n'y a pas d'erreur de connexion
                 if(!username.getText().toString().equals("") && !password.getText().toString().equals("")){
-                    System.out.println("------------------------");
-                    System.out.println(username.getText().toString());
-                    System.out.println(password.getText().toString());
-                    System.out.println("------------------------");
 
                     //push data into database
                     Map<String, Object> data = new HashMap<>();
@@ -81,12 +95,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openHomeActivity(){
-        //Intent intent = new Intent(this,HomeActivity.class);
-        //startActivity(intent);
-
         Intent intent = new Intent(this,NavigationActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    public void openSignInActivity(){
+        Intent intent = new Intent(this,SignInActivity.class);
+        startActivity(intent);
     }
 
 
