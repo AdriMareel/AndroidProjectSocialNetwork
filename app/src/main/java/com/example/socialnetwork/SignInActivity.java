@@ -12,15 +12,23 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
 
 public class SignInActivity extends AppCompatActivity {
     EditText username,password;
@@ -38,36 +46,72 @@ public class SignInActivity extends AppCompatActivity {
 
 
         submit.setOnClickListener(new View.OnClickListener() {
+            int stop = 0;
+            public void setStop(){
+                stop = 1;
+            }
+
             @Override
             public void onClick(View view) {
                 //cas où il n'y a pas d'erreur de connexion
                 if(!username.getText().toString().equals("") && !password.getText().toString().equals("")){
 
 
-                    // A FAIRE : check si username déjà dans la db
+                    //check si username déjà dans la db
+                    db.collection("users")
+                            .whereEqualTo("username", username.getText().toString())
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    //username déjà pris
+                                    if (task.isSuccessful()) {
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            Toast usernameErrorToast = Toast.makeText(getApplicationContext(),"Le nom d'utilisateur renseigné est déjà utilisé, veuillez réessayer.",Toast.LENGTH_LONG);
+                                            usernameErrorToast.show();
+                                            setStop();
+                                            return;
+                                        }
+
+                                    } else {
+                                        System.out.println("*************************");
+                                        System.out.println(task.getException());
+                                        System.out.println("*************************");
+                                    }
+                                }
+                            });
+
+                    System.out.println("*************************");
+                    System.out.println(stop);
+                    System.out.println("*************************");
+
 
                     //push data into database
-                    Map<String, Object> data = new HashMap<>();
-                    data.put("password", password.getText().toString());
-                    data.put("username",username.getText().toString());
+                    if(stop == 0) {
+                        ArrayList<String> friendsList = new ArrayList<>();
+                        Map<String, Object> data = new HashMap<>();
+                        data.put("password", password.getText().toString());
+                        data.put("username", username.getText().toString());
+                        data.put("friendsList", friendsList);
 
-                    db.collection("users").add(data).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                        @Override
-                        public void onSuccess(DocumentReference documentReference) {
-                            Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w(TAG, "Error adding document", e);
-                        }
-                    });
+                        db.collection("users").add(data).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error adding document", e);
+                            }
+                        });
 
 
-                    System.out.println("********* PUSH DATABASE *************");
+                        System.out.println("********* PUSH DATABASE *************");
 
-                    //switching activity
-                    openNavigationActivity();
+                        //switching activity
+                        openNavigationActivity();
+                    }
 
                 }
 

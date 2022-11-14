@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     EditText username,password;
     Button submit;
     TextInputLayout linkSignIn;
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +62,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void openNavigationActivity(){
+    public void openNavigationActivity(String username){
         Intent intent = new Intent(this,NavigationActivity.class);
+        intent.putExtra(username,"username");
         startActivity(intent);
         finish();
     }
@@ -87,10 +88,13 @@ public class MainActivity extends AppCompatActivity {
                                 System.out.println("*************** ICI ***************");
                                 System.out.println(document.getId() + " => " + document.getData());
                                 System.out.println("*************** ICI ***************");
-                                openNavigationActivity();
+                                openNavigationActivity(username);
                             }
+
                         } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
+                            System.out.println("*************************");
+                            System.out.println(task.getException());
+                            System.out.println("*************************");
                         }
                     }
                 });
