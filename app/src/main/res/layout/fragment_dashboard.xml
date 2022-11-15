@@ -41,6 +41,7 @@
             android:layout_marginBottom="0dp"
             android:ems="10"
             android:hint="Title"
+
             android:inputType="textShortMessage"
             tools:ignore="SpeakableTextPresentCheck" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -72,6 +73,9 @@
         android:layout_height="175dp"
         android:contentDescription="Add an image"
         android:visibility="visible"
+
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
         app:srcCompat="@android:drawable/ic_menu_gallery"
         tools:srcCompat="@drawable/ic_dashboard_black_24dp" />
 
