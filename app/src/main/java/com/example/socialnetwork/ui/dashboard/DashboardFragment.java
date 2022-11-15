@@ -27,6 +27,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -139,7 +140,7 @@ public class DashboardFragment extends Fragment {
             @Override
             public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                 if(task.isSuccessful()){
-                    dlUrl=task.getResult().getStorage().getDownloadUrl().toString();
+                    dlUrl= task.getResult().getMetadata().getReference().toString();
                     Toast.makeText(getActivity(),"upload to Storage successfull",Toast.LENGTH_SHORT).show();
                     pushToDatabase();
                 }
