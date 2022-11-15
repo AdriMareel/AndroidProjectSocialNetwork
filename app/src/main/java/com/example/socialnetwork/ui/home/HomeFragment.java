@@ -1,5 +1,6 @@
 package com.example.socialnetwork.ui.home;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
+import com.example.socialnetwork.NavigationActivity;
 import com.example.socialnetwork.R;
 import com.example.socialnetwork.databinding.FragmentHomeBinding;
 
@@ -26,10 +29,6 @@ public class HomeFragment extends Fragment {
         View root = binding.getRoot();
         final TextView textView = binding.textHome;
         homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-
-
-
-
 
         //get data from navigation activity
         Bundle bundle = getArguments();

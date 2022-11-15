@@ -1,11 +1,16 @@
 package com.example.socialnetwork;
 
 import android.os.Bundle;
+import android.view.ViewGroup;
 
+import com.google.android.gms.dynamic.SupportFragmentWrapper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -36,13 +41,20 @@ public class NavigationActivity extends AppCompatActivity {
 
         //get profile's username
         Bundle extras = getIntent().getExtras();
-        if(extras != null){
+        if (extras != null) {
             username = extras.getString("username");
         }
 
         Bundle bundle = new Bundle();
         bundle.putString("username", username);
+
+        //MARCHE PAS - A VOIR
+
+        //FragmentManager fm = getSupportFragmentManager();
+        //Fragment notifications = fm.findFragmentById(R.id.navigation_home);
+        //System.out.println(notifications);
+        //notifications.setArguments(bundle);
+
         navController.setGraph(R.navigation.mobile_navigation, bundle);
     }
-
 }
