@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.socialnetwork.NavigationActivity;
 import com.example.socialnetwork.databinding.FragmentDashboardBinding;
 import static android.content.ContentValues.TAG;
 
@@ -72,9 +73,11 @@ public class DashboardFragment extends Fragment {
         postImgRef= FirebaseStorage.getInstance().getReference();
 
         //initVar
+
         sendButton=(Button) root.findViewById(R.id.sendButton);
         content=(EditText) root.findViewById(R.id.postDescription);
         title=(EditText) root.findViewById(R.id.postTitle);
+
         postImg=(ImageButton) root.findViewById(R.id.postImg);
 
         //onClickListener pour ajouter une image
@@ -119,6 +122,7 @@ public class DashboardFragment extends Fragment {
             pushToDatabase();
         }
         else{
+            //Toast.makeText(getActivity(),((NavigationActivity)getActivity()).username,Toast.LENGTH_SHORT).show();
             StoringImageToFireBase();
         }
 
@@ -135,7 +139,7 @@ public class DashboardFragment extends Fragment {
 
         randomName=sCurrentDate+sCurrentTime;
 
-        StorageReference filePath=postImgRef.child("Post Images").child(imageUrl.getLastPathSegment()+randomName+".jpg");
+        StorageReference filePath=postImgRef.child("Post Images").child(imageUrl.getLastPathSegment()+randomName);
         filePath.putFile(imageUrl).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
@@ -157,10 +161,15 @@ public class DashboardFragment extends Fragment {
 
     private void pushToDatabase() {
         //push data into database
+        String usernamePost=((NavigationActivity)getActivity()).getUsername();
         Map<String, Object> data = new HashMap<>();
         data.put("title", title.getText().toString());
         data.put("description",content.getText().toString());
         data.put("imageUrl",dlUrl);
+        data.put("Creator Username",usernamePost);
+        data.put("Date of post",randomName);
+
+
 
         db.collection("posts").add(data).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
