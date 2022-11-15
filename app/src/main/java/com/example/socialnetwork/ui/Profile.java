@@ -8,9 +8,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
+
 public class Profile {
     String username;
-    String []friends;
+    ArrayList<String> followers = new ArrayList<>();
+    ArrayList<String> following = new ArrayList<>();
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public Profile(String username){

@@ -46,16 +46,11 @@ public class SignInActivity extends AppCompatActivity {
 
 
         submit.setOnClickListener(new View.OnClickListener() {
-            int stop = 0;
-            public void setStop(){
-                stop = 1;
-            }
+            boolean stop = false;
 
             @Override
             public void onClick(View view) {
-                //cas où il n'y a pas d'erreur de connexion
                 if(!username.getText().toString().equals("") && !password.getText().toString().equals("")){
-
 
                     //check si username déjà dans la db
                     db.collection("users")
@@ -69,8 +64,7 @@ public class SignInActivity extends AppCompatActivity {
                                         for (QueryDocumentSnapshot document : task.getResult()) {
                                             Toast usernameErrorToast = Toast.makeText(getApplicationContext(),"Le nom d'utilisateur renseigné est déjà utilisé, veuillez réessayer.",Toast.LENGTH_LONG);
                                             usernameErrorToast.show();
-                                            setStop();
-                                            return;
+                                            stop = true;
                                         }
 
                                     } else {
@@ -81,18 +75,24 @@ public class SignInActivity extends AppCompatActivity {
                                 }
                             });
 
+                    if(stop){
+                        return;
+                    }
+
                     System.out.println("*************************");
                     System.out.println(stop);
                     System.out.println("*************************");
 
 
                     //push data into database
-                    if(stop == 0) {
-                        ArrayList<String> friendsList = new ArrayList<>();
+                    if(!stop) {
+                        ArrayList<String> followers = new ArrayList<>();
+                        ArrayList<String> following = new ArrayList<>();
                         Map<String, Object> data = new HashMap<>();
                         data.put("password", password.getText().toString());
                         data.put("username", username.getText().toString());
-                        data.put("friendsList", friendsList);
+                        data.put("followers", followers);
+                        data.put("following", following);
 
                         db.collection("users").add(data).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
