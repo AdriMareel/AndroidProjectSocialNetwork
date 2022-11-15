@@ -5,7 +5,6 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,8 +25,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class SignInActivity extends AppCompatActivity {
@@ -44,9 +43,7 @@ public class SignInActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.editTextPassword);
         submit = findViewById(R.id.submitButton);
 
-
         submit.setOnClickListener(new View.OnClickListener() {
-            boolean stop = false;
 
             @Override
             public void onClick(View view) {
@@ -62,9 +59,9 @@ public class SignInActivity extends AppCompatActivity {
                                     //username déjà pris
                                     if (task.isSuccessful()) {
                                         for (QueryDocumentSnapshot document : task.getResult()) {
-                                            Toast usernameErrorToast = Toast.makeText(getApplicationContext(),"Le nom d'utilisateur renseigné est déjà utilisé, veuillez réessayer.",Toast.LENGTH_LONG);
-                                            usernameErrorToast.show();
-                                            stop = true;
+                                            Toast.makeText(getApplicationContext(),"Le nom d'utilisateur renseigné est déjà utilisé, veuillez réessayer.",Toast.LENGTH_LONG).show();
+                                            openSignInActivity();
+                                            return;
                                         }
 
                                     } else {
@@ -75,17 +72,8 @@ public class SignInActivity extends AppCompatActivity {
                                 }
                             });
 
-                    if(stop){
-                        return;
-                    }
-
-                    System.out.println("*************************");
-                    System.out.println(stop);
-                    System.out.println("*************************");
-
 
                     //push data into database
-                    if(!stop) {
                         ArrayList<String> followers = new ArrayList<>();
                         ArrayList<String> following = new ArrayList<>();
                         Map<String, Object> data = new HashMap<>();
@@ -111,8 +99,6 @@ public class SignInActivity extends AppCompatActivity {
 
                         //switching activity
                         openNavigationActivity();
-                    }
-
                 }
 
                 else{
@@ -125,6 +111,12 @@ public class SignInActivity extends AppCompatActivity {
 
     public void openNavigationActivity(){
         Intent intent = new Intent(this,NavigationActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void openSignInActivity(){
+        Intent intent = new Intent(this,SignInActivity.class);
         startActivity(intent);
         finish();
     }
