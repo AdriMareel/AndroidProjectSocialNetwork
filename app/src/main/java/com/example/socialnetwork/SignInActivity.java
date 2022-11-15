@@ -5,7 +5,6 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,8 +25,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class SignInActivity extends AppCompatActivity {
@@ -44,18 +43,11 @@ public class SignInActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.editTextPassword);
         submit = findViewById(R.id.submitButton);
 
-
         submit.setOnClickListener(new View.OnClickListener() {
-            int stop = 0;
-            public void setStop(){
-                stop = 1;
-            }
 
             @Override
             public void onClick(View view) {
-                //cas où il n'y a pas d'erreur de connexion
                 if(!username.getText().toString().equals("") && !password.getText().toString().equals("")){
-
 
                     //check si username déjà dans la db
                     db.collection("users")
@@ -67,9 +59,8 @@ public class SignInActivity extends AppCompatActivity {
                                     //username déjà pris
                                     if (task.isSuccessful()) {
                                         for (QueryDocumentSnapshot document : task.getResult()) {
-                                            Toast usernameErrorToast = Toast.makeText(getApplicationContext(),"Le nom d'utilisateur renseigné est déjà utilisé, veuillez réessayer.",Toast.LENGTH_LONG);
-                                            usernameErrorToast.show();
-                                            setStop();
+                                            Toast.makeText(getApplicationContext(),"Le nom d'utilisateur renseigné est déjà utilisé, veuillez réessayer.",Toast.LENGTH_LONG).show();
+                                            openSignInActivity();
                                             return;
                                         }
 
@@ -81,18 +72,15 @@ public class SignInActivity extends AppCompatActivity {
                                 }
                             });
 
-                    System.out.println("*************************");
-                    System.out.println(stop);
-                    System.out.println("*************************");
-
 
                     //push data into database
-                    if(stop == 0) {
-                        ArrayList<String> friendsList = new ArrayList<>();
+                        ArrayList<String> followers = new ArrayList<>();
+                        ArrayList<String> following = new ArrayList<>();
                         Map<String, Object> data = new HashMap<>();
                         data.put("password", password.getText().toString());
                         data.put("username", username.getText().toString());
-                        data.put("friendsList", friendsList);
+                        data.put("followers", followers);
+                        data.put("following", following);
 
                         db.collection("users").add(data).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
@@ -111,8 +99,6 @@ public class SignInActivity extends AppCompatActivity {
 
                         //switching activity
                         openNavigationActivity();
-                    }
-
                 }
 
                 else{
@@ -125,6 +111,12 @@ public class SignInActivity extends AppCompatActivity {
 
     public void openNavigationActivity(){
         Intent intent = new Intent(this,NavigationActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void openSignInActivity(){
+        Intent intent = new Intent(this,SignInActivity.class);
         startActivity(intent);
         finish();
     }
