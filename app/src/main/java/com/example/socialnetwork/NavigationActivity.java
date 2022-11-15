@@ -7,6 +7,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
@@ -36,11 +37,12 @@ public class NavigationActivity extends AppCompatActivity {
         //get profile's username
         Bundle extras = getIntent().getExtras();
         if(extras != null){
-           username = extras.getString("username");
+            username = extras.getString("username");
         }
 
-
-
+        Bundle bundle = new Bundle();
+        bundle.putString("username", username);
+        navController.setGraph(R.navigation.mobile_navigation, bundle);
     }
 
 }

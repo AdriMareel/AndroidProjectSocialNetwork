@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.socialnetwork.R;
 import com.example.socialnetwork.databinding.FragmentNotificationsBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -38,6 +39,10 @@ public class NotificationsFragment extends Fragment {
         binding = FragmentNotificationsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        Bundle bundle = getArguments();
+        username = bundle.getString("username");
+        TextView element = root.findViewById(R.id.Username);
+        element.setText(username);
 
 
         final TextView textView = binding.Username;

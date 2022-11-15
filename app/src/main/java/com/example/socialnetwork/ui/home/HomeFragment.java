@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.socialnetwork.R;
 import com.example.socialnetwork.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {
@@ -23,9 +24,22 @@ public class HomeFragment extends Fragment {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
         final TextView textView = binding.textHome;
         homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+
+
+
+
+
+        //get data from navigation activity
+        Bundle bundle = getArguments();
+        String username = bundle.getString("username");
+        TextView element = root.findViewById(R.id.Username1);
+        element.setText(username);
+
+
+
+
         return root;
     }
 
