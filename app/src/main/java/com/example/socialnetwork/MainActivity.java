@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openFeedActivity(String username){
-        Intent intent = new Intent(this,ProfileActivity.class);
+        Intent intent = new Intent(this,FeedActivity.class);
         intent.putExtra("username",username);
         startActivity(intent);
         finish();
