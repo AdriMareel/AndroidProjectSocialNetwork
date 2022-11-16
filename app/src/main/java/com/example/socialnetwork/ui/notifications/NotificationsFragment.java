@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.socialnetwork.NavigationActivity;
 import com.example.socialnetwork.R;
 import com.example.socialnetwork.databinding.FragmentNotificationsBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -20,6 +21,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class NotificationsFragment extends Fragment {
 
@@ -39,11 +41,10 @@ public class NotificationsFragment extends Fragment {
         binding = FragmentNotificationsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        Bundle bundle = getArguments();
-        username = bundle.getString("username");
-        TextView element = root.findViewById(R.id.Username);
-        element.setText(username);
+        //get data
 
+        username = ((NavigationActivity)getActivity()).getUsername();
+        System.out.println("                                       "+ username);
 
         final TextView textView = binding.Username;
         notificationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);

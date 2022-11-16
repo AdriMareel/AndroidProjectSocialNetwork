@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
                                 System.out.println(document.getId() + " => " + document.getData());
                                 System.out.println("*************** ICI ***************");
                                 openNavigationActivity(username);
+                                return;
                             }
 
                         } else {
