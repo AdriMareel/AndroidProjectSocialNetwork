@@ -62,8 +62,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void openNavigationActivity(String username){
-        Intent intent = new Intent(this,FeedActivity.class);
+    public void openFeedActivity(String username){
+        Intent intent = new Intent(this,ProfileActivity.class);
         intent.putExtra("username",username);
         startActivity(intent);
         finish();
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                                 System.out.println("*************** ICI ***************");
                                 System.out.println(document.getId() + " => " + document.getData());
                                 System.out.println("*************** ICI ***************");
-                                openNavigationActivity(username);
+                                openFeedActivity(username);
                                 return;
                             }
 

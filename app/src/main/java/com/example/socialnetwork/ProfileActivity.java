@@ -14,51 +14,58 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
-public class FeedActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity {
 
     String username;
     RecyclerView recyclerView;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     MyAdapter myAdapter;
-    ArrayList <Post> list;
+    ArrayList<Post> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_feed);
+        setContentView(R.layout.activity_profile);
 
         //get profile's username
         Bundle extras = getIntent().getExtras();
-        if(extras != null){
+        if (extras != null) {
             username = extras.getString("username");
         }
 
-        recyclerView = findViewById(R.id.postList);
+        recyclerView = findViewById(R.id.profilePostList);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         list = new ArrayList<>();
-        myAdapter = new MyAdapter(this,list);
+        myAdapter = new MyAdapter(this, list);
         recyclerView.setAdapter(myAdapter);
 
-        db.collection("posts").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("posts")
+                .whereEqualTo("Creator Username", username)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()){
-                    for (QueryDocumentSnapshot document : task.getResult()){
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        System.out.println("ON EST LA OUAIS CA MARCHE 2");
+                        System.out.println(document.getData());
                         Post post = new Post();
                         post.postUsername = (String) document.getData().get("Creator Username");
                         post.postContent = (String) document.getData().get("description");
                         post.postTitle = (String) document.getData().get("title");
                         post.postDate = (String) document.getData().get("Date of post");
                         list.add(post);
+
+                        System.out.println(post.postTitle);
                     }
                 }
                 myAdapter.notifyDataSetChanged();
             }
         });
     }
-
 
 }

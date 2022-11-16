@@ -98,7 +98,7 @@ public class SignInActivity extends AppCompatActivity {
                         System.out.println("********* PUSH DATABASE *************");
 
                         //switching activity
-                        openNavigationActivity();
+                        openFeedActivity(username.getText().toString());
                 }
 
                 else{
@@ -109,8 +109,9 @@ public class SignInActivity extends AppCompatActivity {
 
     }
 
-    public void openNavigationActivity(){
+    public void openFeedActivity(String username){
         Intent intent = new Intent(this,FeedActivity.class);
+        intent.putExtra("username",username);
         startActivity(intent);
         finish();
     }
