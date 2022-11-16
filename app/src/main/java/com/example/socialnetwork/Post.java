@@ -1,10 +1,24 @@
 package com.example.socialnetwork;
 
 public class Post {
-    public String creatorName;
+    public String postUsername;
     public String postTitle;
     public String postContent;
-    public String creationDate;
-    public int postImg;
+    public String postDate;
 
+    public String getPostUsername() {
+        return postUsername;
+    }
+
+    public String getPostTitle() {
+        return postTitle;
+    }
+
+    public String getPostContent() {
+        return postContent;
+    }
+
+    public String getPostDate() {
+        return postDate;
+    }
 }

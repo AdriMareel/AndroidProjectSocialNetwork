@@ -110,7 +110,7 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     public void openNavigationActivity(){
-        Intent intent = new Intent(this,NavigationActivity.class);
+        Intent intent = new Intent(this,FeedActivity.class);
         startActivity(intent);
         finish();
     }

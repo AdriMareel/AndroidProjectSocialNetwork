@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openNavigationActivity(String username){
-        Intent intent = new Intent(this,NavigationActivity.class);
+        Intent intent = new Intent(this,FeedActivity.class);
         intent.putExtra("username",username);
         startActivity(intent);
         finish();
