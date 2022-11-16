@@ -1,5 +1,6 @@
 package com.example.socialnetwork.ui.notifications;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,8 +35,9 @@ public class NotificationsFragment extends Fragment {
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     ImageView avatarIv,bgIv;
-    TextView nameIv,nbFollowIv,descriptionIv;
+    TextView nameIv,nbFollowersIv,nbFollowingIv,descriptionIv;
 
+    @SuppressLint("SetTextI18n")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         NotificationsViewModel notificationsViewModel =
@@ -45,15 +47,13 @@ public class NotificationsFragment extends Fragment {
         View root = binding.getRoot();
 
         //get data
-
-
         nameIv = root.findViewById(R.id.nameIv);
         avatarIv =  root.findViewById(R.id.avatarIv);
-        nbFollowIv = root.findViewById(R.id.nbFollowersIv);
+        nbFollowersIv = root.findViewById(R.id.nbFollowers);
+        nbFollowingIv = root.findViewById(R.id.nbFollowing);
         descriptionIv = root.findViewById(R.id.descriptionIv);
 
-        username = ((NavigationActivity)getActivity()).getUsername();
-        System.out.println("                                       "+ username);
+        username = ((NavigationActivity) getActivity()).getUsername();
 
         db.collection("users")
                 .whereEqualTo("username", username)
@@ -66,6 +66,9 @@ public class NotificationsFragment extends Fragment {
                                 System.out.println("*************** ICI ***************");
                                 System.out.println(document.getId() + " => " + document.getData());
                                 System.out.println("*************** ICI ***************");
+                                followers = (ArrayList<String>) document.getData().get("followers");
+                                following = (ArrayList<String>) document.getData().get("followers");
+                                return;
                             }
 
                         }else {
@@ -75,6 +78,11 @@ public class NotificationsFragment extends Fragment {
                         }
                     }
                 });
+
+        nameIv.setText(username);
+        nbFollowersIv.setText(Integer.toString(followers.size()));
+        nbFollowingIv.setText(Integer.toString(following.size()));
+
 
 
 
