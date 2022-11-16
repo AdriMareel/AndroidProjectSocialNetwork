@@ -36,7 +36,9 @@ public class PostAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final View view = inflater.inflate(R.layout.)
+        final View view = inflater.inflate(R.layout.post_list,null);
+
+        final  Post post=(Post) 
 
         return view;
     }
