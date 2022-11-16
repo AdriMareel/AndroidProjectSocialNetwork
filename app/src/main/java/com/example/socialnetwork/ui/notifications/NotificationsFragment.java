@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,7 +22,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class NotificationsFragment extends Fragment {
 
@@ -33,6 +33,9 @@ public class NotificationsFragment extends Fragment {
     StorageReference profilePicLink;
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    ImageView avatarIv,bgIv;
+    TextView nameIv,nbFollowIv,descriptionIv;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         NotificationsViewModel notificationsViewModel =
@@ -43,11 +46,14 @@ public class NotificationsFragment extends Fragment {
 
         //get data
 
+
+        nameIv = root.findViewById(R.id.nameIv);
+        avatarIv =  root.findViewById(R.id.avatarIv);
+        nbFollowIv = root.findViewById(R.id.nbFollowersIv);
+        descriptionIv = root.findViewById(R.id.descriptionIv);
+
         username = ((NavigationActivity)getActivity()).getUsername();
         System.out.println("                                       "+ username);
-
-        final TextView textView = binding.Username;
-        notificationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         db.collection("users")
                 .whereEqualTo("username", username)

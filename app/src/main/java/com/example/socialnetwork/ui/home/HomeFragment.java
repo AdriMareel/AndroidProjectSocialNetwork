@@ -27,14 +27,13 @@ public class HomeFragment extends Fragment {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        final TextView textView = binding.textHome;
-        homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         //get data from navigation activity
         Bundle bundle = getArguments();
         String username = bundle.getString("username");
         TextView element = root.findViewById(R.id.Username1);
-        element.setText(username);
+        String display = "Bonjour, " + username;
+        element.setText(display);
 
 
 
