@@ -56,6 +56,7 @@ public class FeedActivity extends AppCompatActivity {
                         post.postContent = (String) document.getData().get("description");
                         post.postTitle = (String) document.getData().get("title");
                         post.postDate = (String) document.getData().get("Date of post");
+                        post.postImageUrl= (String) document.getData().get("imageUrl");
                         list.add(post);
                     }
                 }

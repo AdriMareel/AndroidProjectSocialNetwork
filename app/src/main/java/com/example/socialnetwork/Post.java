@@ -5,6 +5,7 @@ public class Post {
     public String postTitle;
     public String postContent;
     public String postDate;
+    public String postImageUrl;
 
     public String getPostUsername() {
         return postUsername;
@@ -21,4 +22,6 @@ public class Post {
     public String getPostDate() {
         return postDate;
     }
+
+    public String getPostImageUrl(){return postImageUrl;}
 }

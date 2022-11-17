@@ -110,19 +110,19 @@ public class PostActivity extends Activity {
 
         randomName=sCurrentDate+sCurrentTime;
 
-        StorageReference filePath=postImgRef.child("Post Images").child(imageUrl.getLastPathSegment()+randomName);
+        StorageReference filePath=postImgRef.child("Post Images").child(randomName+imageUrl.getLastPathSegment());
         filePath.putFile(imageUrl).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                 if(task.isSuccessful()){
-                    dlUrl=task.getResult().getStorage().getDownloadUrl().toString();
+                    dlUrl= task.getResult().getMetadata().getReference().toString();
                     System.out.println("instance:");
                     System.out.println(FirebaseStorage.getInstance());
                     System.out.println("ref:");
                     System.out.println(FirebaseStorage.getInstance().getReference().child("Post Images"));
 
                     Toast.makeText(PostActivity.this,"upload to Storage successfull",Toast.LENGTH_SHORT).show();
-                    //pushToDatabase();
+                    pushToDatabase();
                 }
                 else {
                     String errMess=task.getException().getMessage();
