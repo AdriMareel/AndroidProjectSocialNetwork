@@ -26,7 +26,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 
 public class SignInActivity extends AppCompatActivity {
@@ -39,7 +38,7 @@ public class SignInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
-        username = (EditText) findViewById(R.id.editTextUsername);
+        username = (EditText) findViewById(R.id.addUsername);
         password = (EditText) findViewById(R.id.editTextPassword);
         submit = findViewById(R.id.submitButton);
 

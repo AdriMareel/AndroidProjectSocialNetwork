@@ -2,12 +2,14 @@ package com.example.socialnetwork;
 
 import static android.content.ContentValues.TAG;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +22,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -76,6 +79,47 @@ public class PostActivity extends Activity {
                 ValidatePostInfo();
             }
         });
+
+        // Initialize and assign variable
+        BottomNavigationView bottomNavigationView=findViewById(R.id.bottomNavigationView);
+
+        // Set Home selected
+        bottomNavigationView.setSelectedItemId(R.id.search);
+
+        // Perform item selected listener
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @SuppressLint("NonConstantResourceId")
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                switch(item.getItemId())
+                {
+                    case R.id.create:
+                        startActivity(new Intent(getApplicationContext(),PostActivity.class));
+                        overridePendingTransition(0,0);
+                        finish();
+                        return true;
+                    case R.id.feed:
+                        startActivity(new Intent(getApplicationContext(),FeedActivity.class));
+                        overridePendingTransition(0,0);
+                        finish();
+                        return true;
+                    case R.id.search:
+                        startActivity(new Intent(getApplicationContext(),SearchActivity.class));
+                        overridePendingTransition(0,0);
+                        finish();
+                        return true;
+                    case R.id.profile:
+                        startActivity(new Intent(getApplicationContext(),ProfileActivity.class));
+                        overridePendingTransition(0,0);
+                        finish();
+                        return true;
+                }
+                return false;
+            }
+        });
+
+
     }
 
     private void ValidatePostInfo() {

@@ -88,18 +88,22 @@ public class ProfileActivity extends AppCompatActivity {
                     case R.id.create:
                         startActivity(new Intent(getApplicationContext(),PostActivity.class));
                         overridePendingTransition(0,0);
+                        finish();
                         return true;
                     case R.id.feed:
                         startActivity(new Intent(getApplicationContext(),FeedActivity.class));
                         overridePendingTransition(0,0);
+                        finish();
                         return true;
                     case R.id.search:
                         startActivity(new Intent(getApplicationContext(),SearchActivity.class));
                         overridePendingTransition(0,0);
+                        finish();
                         return true;
                     case R.id.profile:
                         startActivity(new Intent(getApplicationContext(),ProfileActivity.class));
                         overridePendingTransition(0,0);
+                        finish();
                         return true;
                 }
                 return false;
