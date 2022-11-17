@@ -68,7 +68,7 @@ public class FeedActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView=findViewById(R.id.bottomNavigationView);
 
         // Set Home selected
-        bottomNavigationView.setSelectedItemId(R.id.feed);
+        bottomNavigationView.setSelectedItemId(R.id.create);
 
         // Perform item selected listener
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
