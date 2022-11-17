@@ -172,7 +172,7 @@ public class PostActivity extends Activity {
                         System.out.println(downloadUrl);
                         dlUrl=uri.toString();
                         pushToDatabase();
-                        
+
                     }
                 });
             }
@@ -190,7 +190,7 @@ public class PostActivity extends Activity {
         data.put("description",content.getText().toString());
         data.put("imageUrl",dlUrl);
         data.put("Creator Username",usernamePost);
-        data.put("Date of post",randomName);
+        data.put("Date of post",sCurrentDate);
         db.collection("posts").add(data).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {

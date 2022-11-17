@@ -52,7 +52,7 @@ public class MyAdapter extends RecyclerView.Adapter <MyAdapter.MyViewHolder> {
         holder.username.setText(post.getPostUsername());
         holder.content.setText(post.getPostContent());
         holder.creationDate.setText(post.getPostDate());
-        Picasso.get().load(post.getPostImageUrl()).into(holder.postImage);
+        Picasso.get().load(post.getPostImageUrl()).resize(1165,0).into(holder.postImage);
 
 
     }
