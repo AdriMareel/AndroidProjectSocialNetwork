@@ -94,17 +94,13 @@ public class SignInActivity extends AppCompatActivity {
                         data.put("followers", followers);
                         data.put("following", following);
 
-                        db.collection("users").add(data).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                Toast.makeText(getApplicationContext(),"Compte créé avec succès ! ",Toast.LENGTH_LONG).show();
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w(TAG, "Error adding document", e);
-                            }
-                        });
+                        db.collection("users").document(username.getText().toString())
+                                .set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        Toast.makeText(getApplicationContext(),"Compte créé avec succès ! ",Toast.LENGTH_LONG).show();
+                                    }
+                                });
 
 
                         System.out.println("********* PUSH DATABASE *************");

@@ -17,9 +17,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.List;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -95,12 +98,43 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
-    public void addUser(String currentUser, String userToAdd){
+    public void addUser(String currentUser, String userToAdd) {
 
-        //check si userToAdd existe bien
-        Task<QuerySnapshot> userRef = db.collection("users").whereEqualTo("username", userToAdd).get();
+        DocumentReference docRef = db.collection("users").document(currentUser);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                List<String> following = (List<String>) task.getResult().get("following");
+                following.add(userToAdd);
+                db.collection("users").document(currentUser).update("following", following).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                    }
+                });
+            }
+        });
+
+        DocumentReference docRef2 = db.collection("users").document(userToAdd);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                List<String> followers = (List<String>) task.getResult().get("followers");
+                followers.add(currentUser);
+                db.collection("users").document(userToAdd).update("followers", followers).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Toast.makeText(getApplicationContext(),"Vous suivez désormais "+ userToAdd, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
 
 
-        System.out.println(userRef.getResult());
+        //DocumentReference docRef2 = db.collection("users").document(currentUser);
+        //List<String> followers = (List<String>) docRef.get().getResult().get("following");
+        //followers.add(currentUser);
+        //db.collection("users").document(currentUser).update("followers", followers);
+
     }
 }
