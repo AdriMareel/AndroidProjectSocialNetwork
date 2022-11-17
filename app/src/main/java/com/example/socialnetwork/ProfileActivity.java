@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -37,6 +38,11 @@ public class ProfileActivity extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     MyAdapter myAdapter;
     ArrayList<Post> list;
+    ArrayList<String> followers = new ArrayList<>();
+    ArrayList<String> following = new ArrayList<>();
+
+    ImageView avatarIv,bgIv;
+    TextView nameIv,nbFollowersIv,nbFollowingIv,descriptionIv;
 
     int KTC = (int) 273.15;
 
@@ -52,6 +58,12 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        //get profile's username
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            username = extras.getString("username");
+        }
+
         weatherData = findViewById(R.id.textView);
 
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
@@ -61,11 +73,38 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        //get profile's username
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            username = extras.getString("username");
-        }
+        //get data
+        nameIv = findViewById(R.id.nameIv);
+        nbFollowersIv = findViewById(R.id.nbFollowers);
+        nbFollowingIv = findViewById(R.id.nbFollowing);
+
+        db.collection("users")
+                .whereEqualTo("username", username)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                System.out.println("*************** ICI ***************");
+                                System.out.println(document.getId() + " => " + document.getData());
+                                System.out.println("*************** ICI ***************");
+                                followers = (ArrayList<String>) document.getData().get("followers");
+                                following = (ArrayList<String>) document.getData().get("followers");
+                                return;
+                            }
+
+                        }else {
+                            System.out.println("*************************");
+                            System.out.println(task.getException());
+                            System.out.println("*************************");
+                        }
+                    }
+                });
+
+        nameIv.setText(username);
+        nbFollowersIv.setText(Integer.toString(followers.size()));
+        nbFollowingIv.setText(Integer.toString(following.size()));
 
         recyclerView = findViewById(R.id.profilePostList);
         recyclerView.setHasFixedSize(true);
