@@ -42,8 +42,9 @@
                     android:id="@+id/avatarIv"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
-                    android:background="#9CDE9F"
+                    android:background="#FFFFFF"
                     android:padding="5dp"
+                    android:src="@drawable/ic_profilepicture"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -130,11 +131,15 @@
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
-                android:textSize="16sp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:fontFamily="@font/robotom"
+                android:gravity="left"
+                android:lineSpacingExtra="8sp"
+                android:textColor="@color/white"
+                android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
@@ -142,10 +147,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Get Current Weather Data"
+                android:text="SHOW WEATHER"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+            <ImageView
+                android:id="@+id/img"
+                android:layout_width="208dp"
+                android:layout_height="199dp"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

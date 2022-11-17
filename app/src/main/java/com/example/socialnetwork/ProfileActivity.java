@@ -2,18 +2,22 @@ package com.example.socialnetwork;
 
 import static java.lang.Math.round;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -23,7 +27,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,6 +35,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ProfileActivity extends AppCompatActivity {
+
 
     String username;
     RecyclerView recyclerView;
@@ -43,6 +47,8 @@ public class ProfileActivity extends AppCompatActivity {
 
     ImageView avatarIv,bgIv;
     TextView nameIv,nbFollowersIv,nbFollowingIv,descriptionIv;
+    ImageView img;
+    int imgRes = 0;
 
     int KTC = (int) 273.15;
 
@@ -65,6 +71,8 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
         weatherData = findViewById(R.id.textView);
+        img = findViewById(R.id.img);
+
 
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -192,25 +200,30 @@ public class ProfileActivity extends AppCompatActivity {
                     WeatherResponse weatherResponse = response.body();
                     assert weatherResponse != null;
 
-                    String stringBuilder = "Country: " +
-                            weatherResponse.sys.country +
-                            "\n" +
+                    String stringBuilder =
                             "Temperature: " +
                             round(weatherResponse.main.temp - KTC) +
                             "\n" +
-                            "Temperature(Min): " +
+                            "MIN: " +
                             round(weatherResponse.main.temp_min - KTC)  +
                             "\n" +
-                            "Temperature(Max): " +
+                            "MAX: " +
                             round(weatherResponse.main.temp_max - KTC) +
                             "\n" +
                             "Humidity: " +
                             weatherResponse.main.humidity +
-                            "\n" +
-                            "Pressure: " +
-                            weatherResponse.main.pressure;
+                            "\n";
 
                     weatherData.setText(stringBuilder);
+                    //Change the image when the imageView is touched
+                    if ( round(weatherResponse.main.temp - KTC) >= 10) {
+                        imgRes = R.drawable.sun;
+                    } else if (round(weatherResponse.main.temp - KTC) <= 10) {
+                        imgRes = R.drawable.neige;
+                    img.setImageResource(imgRes);
+
+
+                    }
                 }
             }
 
@@ -220,4 +233,5 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
     }
+
 }
