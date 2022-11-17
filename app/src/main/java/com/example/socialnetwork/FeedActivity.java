@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -66,10 +67,11 @@ public class FeedActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView=findViewById(R.id.bottomNavigationView);
 
         // Set Home selected
-        bottomNavigationView.setSelectedItemId(R.id.create);
+        bottomNavigationView.setSelectedItemId(R.id.feed);
 
         // Perform item selected listener
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @SuppressLint("NonConstantResourceId")
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
@@ -80,9 +82,11 @@ public class FeedActivity extends AppCompatActivity {
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.feed:
+                        startActivity(new Intent(getApplicationContext(),FeedActivity.class));
+                        overridePendingTransition(0,0);
                         return true;
                     case R.id.search:
-                        startActivity(new Intent(getApplicationContext(),FeedActivity.class));
+                        startActivity(new Intent(getApplicationContext(),SearchActivity.class));
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.profile:
