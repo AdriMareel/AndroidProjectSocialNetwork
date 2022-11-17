@@ -33,6 +33,12 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        //get profile's username
+        Bundle extras = getIntent().getExtras();
+        if(extras != null){
+            username = extras.getString("username");
+        }
+
         textView = findViewById(R.id.addUsername);
         submit = findViewById(R.id.addButton);
 
@@ -64,22 +70,22 @@ public class SearchActivity extends AppCompatActivity {
                 switch(item.getItemId())
                 {
                     case R.id.create:
-                        startActivity(new Intent(getApplicationContext(),PostActivity.class));
+                        startActivity(new Intent(getApplicationContext(),PostActivity.class).putExtra("username",username));
                         overridePendingTransition(0,0);
                         finish();
                         return true;
                     case R.id.feed:
-                        startActivity(new Intent(getApplicationContext(),FeedActivity.class));
+                        startActivity(new Intent(getApplicationContext(),FeedActivity.class).putExtra("username",username));
                         overridePendingTransition(0,0);
                         finish();
                         return true;
                     case R.id.search:
-                        startActivity(new Intent(getApplicationContext(),SearchActivity.class));
+                        startActivity(new Intent(getApplicationContext(),SearchActivity.class).putExtra("username",username));
                         overridePendingTransition(0,0);
                         finish();
                         return true;
                     case R.id.profile:
-                        startActivity(new Intent(getApplicationContext(),ProfileActivity.class));
+                        startActivity(new Intent(getApplicationContext(),ProfileActivity.class).putExtra("username",username));
                         overridePendingTransition(0,0);
                         finish();
                         return true;

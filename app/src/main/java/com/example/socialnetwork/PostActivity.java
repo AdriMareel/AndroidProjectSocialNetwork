@@ -57,6 +57,12 @@ public class PostActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_dashboard);
 
+        //get profile's username
+        Bundle extras = getIntent().getExtras();
+        if(extras != null){
+            username = extras.getString("username");
+        }
+
         postImgRef= FirebaseStorage.getInstance().getReference();
 
         //initVar
@@ -96,22 +102,22 @@ public class PostActivity extends Activity {
                 switch(item.getItemId())
                 {
                     case R.id.create:
-                        startActivity(new Intent(getApplicationContext(),PostActivity.class));
+                        startActivity(new Intent(getApplicationContext(),PostActivity.class).putExtra("username",username));
                         overridePendingTransition(0,0);
                         finish();
                         return true;
                     case R.id.feed:
-                        startActivity(new Intent(getApplicationContext(),FeedActivity.class));
+                        startActivity(new Intent(getApplicationContext(),FeedActivity.class).putExtra("username",username));
                         overridePendingTransition(0,0);
                         finish();
                         return true;
                     case R.id.search:
-                        startActivity(new Intent(getApplicationContext(),SearchActivity.class));
+                        startActivity(new Intent(getApplicationContext(),SearchActivity.class).putExtra("username",username));
                         overridePendingTransition(0,0);
                         finish();
                         return true;
                     case R.id.profile:
-                        startActivity(new Intent(getApplicationContext(),ProfileActivity.class));
+                        startActivity(new Intent(getApplicationContext(),ProfileActivity.class).putExtra("username",username));
                         overridePendingTransition(0,0);
                         finish();
                         return true;
@@ -183,11 +189,11 @@ public class PostActivity extends Activity {
     private void pushToDatabase() {
         //push data into database
         Map<String, Object> data = new HashMap<>();
-        //String usernamePost=((NavigationActivity)getActivity()).getUsername();
+        String usernamePost = username;
         data.put("title", title.getText().toString());
         data.put("description",content.getText().toString());
         data.put("imageUrl",dlUrl);
-        //data.put("Creator Username",usernamePost);
+        data.put("Creator Username",usernamePost);
         data.put("Date of post",randomName);
         db.collection("posts").add(data).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
