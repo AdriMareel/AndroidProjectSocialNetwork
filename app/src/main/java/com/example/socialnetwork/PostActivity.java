@@ -151,39 +151,35 @@ public class PostActivity extends Activity {
     }
 
     private void StoringImageToFireBase() {
-        Calendar calForDate=Calendar.getInstance();
-        SimpleDateFormat currentDate= new SimpleDateFormat("dd-MM-yyyy");
-        sCurrentDate=currentDate.format(calForDate.getTime());
+        Calendar calForDate = Calendar.getInstance();
+        SimpleDateFormat currentDate = new SimpleDateFormat("dd-MM-yyyy");
+        sCurrentDate = currentDate.format(calForDate.getTime());
 
-        Calendar calForTime=Calendar.getInstance();
-        SimpleDateFormat currentTime= new SimpleDateFormat("HH:mm:ss");
-        sCurrentTime=currentTime.format(calForDate.getTime());
+        Calendar calForTime = Calendar.getInstance();
+        SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss");
+        sCurrentTime = currentTime.format(calForDate.getTime());
 
-        randomName=sCurrentDate+sCurrentTime;
+        randomName = sCurrentDate + sCurrentTime;
 
-        StorageReference filePath=postImgRef.child("Post Images").child(randomName+imageUrl.getLastPathSegment());
-        filePath.putFile(imageUrl).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+        StorageReference filePath = postImgRef.child("Post Images").child(randomName + imageUrl.getLastPathSegment());
+        filePath.putFile(imageUrl).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                if(task.isSuccessful()){
-                    dlUrl= task.getResult().getMetadata().getReference().toString();
-                    System.out.println("instance:");
-                    System.out.println(FirebaseStorage.getInstance());
-                    System.out.println("ref:");
-                    System.out.println(FirebaseStorage.getInstance().getReference().child("Post Images"));
-
-                    Toast.makeText(PostActivity.this,"upload to Storage successfull",Toast.LENGTH_SHORT).show();
-                    pushToDatabase();
-                }
-                else {
-                    String errMess=task.getException().getMessage();
-                    Toast.makeText(PostActivity.this, "Error: "+errMess, Toast.LENGTH_SHORT).show();
-                }
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                filePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Uri downloadUrl = uri;
+                        System.out.println(downloadUrl);
+                        dlUrl=uri.toString();
+                        pushToDatabase();
+                        
+                    }
+                });
             }
+
+
+
         });
-
-
-
     }
 
     private void pushToDatabase() {

@@ -20,6 +20,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.InputStream;
@@ -51,27 +52,9 @@ public class MyAdapter extends RecyclerView.Adapter <MyAdapter.MyViewHolder> {
         holder.username.setText(post.getPostUsername());
         holder.content.setText(post.getPostContent());
         holder.creationDate.setText(post.getPostDate());
+        Picasso.get().load(post.getPostImageUrl()).into(holder.postImage);
 
-        /*
-        StorageReference url=storage.getReferenceFromUrl(post.getPostImageUrl());
-        System.out.println("*********************************************");
-        System.out.println(url.getDownloadUrl());
-        //holder.postImage.setImageURI(url.getDownloadUrl().getResult());
-        //Picasso.get().load().into(holder.postImage);
-        url.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                // Got the download URL for 'users/me/profile.png'
-                //Picasso.get().load(uri).into(holder.postImage);
-                holder.postImage.setImageURI(uri);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
-            }
-        });
-        */
+
     }
 
     @Override
