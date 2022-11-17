@@ -20,7 +20,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.InputStream;
@@ -53,6 +52,7 @@ public class MyAdapter extends RecyclerView.Adapter <MyAdapter.MyViewHolder> {
         holder.content.setText(post.getPostContent());
         holder.creationDate.setText(post.getPostDate());
 
+        /*
         StorageReference url=storage.getReferenceFromUrl(post.getPostImageUrl());
         System.out.println("*********************************************");
         System.out.println(url.getDownloadUrl());
@@ -71,6 +71,7 @@ public class MyAdapter extends RecyclerView.Adapter <MyAdapter.MyViewHolder> {
                 // Handle any errors
             }
         });
+        */
     }
 
     @Override

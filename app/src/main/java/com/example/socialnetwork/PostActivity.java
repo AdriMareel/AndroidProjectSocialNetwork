@@ -36,6 +36,7 @@ import java.util.Map;
 
 public class PostActivity extends Activity {
 
+    private String username;
     private Button sendButton;
     private EditText content;
     private EditText title;
@@ -84,7 +85,7 @@ public class PostActivity extends Activity {
         BottomNavigationView bottomNavigationView=findViewById(R.id.bottomNavigationView);
 
         // Set Home selected
-        bottomNavigationView.setSelectedItemId(R.id.search);
+        bottomNavigationView.setSelectedItemId(R.id.create);
 
         // Perform item selected listener
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
