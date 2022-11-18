@@ -94,9 +94,9 @@ public class ProfileActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                System.out.println("*************** ICI ***************");
+                                System.out.println("******************************");
                                 System.out.println(document.getId() + " => " + document.getData());
-                                System.out.println("*************** ICI ***************");
+                                System.out.println("******************************");
                                 followers = (ArrayList<String>) document.getData().get("followers");
                                 following = (ArrayList<String>) document.getData().get("followers");
                                 return;
@@ -130,8 +130,6 @@ public class ProfileActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                System.out.println("ON EST LA OUAIS CA MARCHE 2");
-                                System.out.println(document.getData());
                                 Post post = new Post();
                                 post.postUsername = (String) document.getData().get("Creator Username");
                                 post.postContent = (String) document.getData().get("description");
@@ -218,7 +216,7 @@ public class ProfileActivity extends AppCompatActivity {
                     //Change the image when the imageView is touched
                     if ( round(weatherResponse.main.temp - KTC) >= 10) {
                         imgRes = R.drawable.sun;
-                    } else if (round(weatherResponse.main.temp - KTC) <= 10) {
+                    } else if (round(weatherResponse.main.temp - KTC) < 10) {
                         imgRes = R.drawable.neige;
                     img.setImageResource(imgRes);
 

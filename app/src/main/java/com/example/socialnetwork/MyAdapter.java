@@ -51,6 +51,7 @@ public class MyAdapter extends RecyclerView.Adapter <MyAdapter.MyViewHolder> {
         Post post = list.get(position);
         holder.username.setText(post.getPostUsername());
         holder.content.setText(post.getPostContent());
+        holder.title.setText(post.getPostTitle());
         holder.creationDate.setText(post.getPostDate());
         Picasso.get().load(post.getPostImageUrl()).resize(1165,0).into(holder.postImage);
 
@@ -64,7 +65,7 @@ public class MyAdapter extends RecyclerView.Adapter <MyAdapter.MyViewHolder> {
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
-        TextView username, content,creationDate;
+        TextView username, content,creationDate, title;
         ImageView postImage;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -72,6 +73,7 @@ public class MyAdapter extends RecyclerView.Adapter <MyAdapter.MyViewHolder> {
 
 
             username = itemView.findViewById(R.id.tvUsername);
+            title=itemView.findViewById(R.id.tvTitle);
             content = itemView.findViewById(R.id.tvContent);
             creationDate=itemView.findViewById(R.id.tvDate);
             postImage = itemView.findViewById(R.id.ivImage);

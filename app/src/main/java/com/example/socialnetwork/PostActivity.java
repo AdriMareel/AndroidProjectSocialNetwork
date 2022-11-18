@@ -140,6 +140,9 @@ public class PostActivity extends Activity {
             Toast.makeText(this,"Add a title",Toast.LENGTH_SHORT).show();
         }
         else if(imageUrl==null && !TextUtils.isEmpty(description)){
+            Calendar calForDate = Calendar.getInstance();
+            SimpleDateFormat currentDate = new SimpleDateFormat("dd-MM-yyyy");
+            sCurrentDate = currentDate.format(calForDate.getTime());
             pushToDatabase();
         }
         else{
@@ -203,6 +206,9 @@ public class PostActivity extends Activity {
 
 
         System.out.println("********* PUSH DATABASE *************");
+        startActivity(new Intent(getApplicationContext(),FeedActivity.class).putExtra("username",username));
+        overridePendingTransition(0,0);
+        finish();
     }
 
     private void OpenGallery() {
