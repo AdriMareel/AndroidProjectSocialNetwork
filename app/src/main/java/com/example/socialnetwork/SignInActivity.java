@@ -54,36 +54,6 @@ public class SignInActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(!username.getText().toString().equals("") && !password.getText().toString().equals("")){
 
-                    //check si username déjà dans la db
-                    db.collection("users")
-                            .whereEqualTo("username", username.getText().toString())
-                            .get()
-                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                    //username déjà pris
-                                    if (task.isSuccessful()) {
-                                        for (QueryDocumentSnapshot document : task.getResult()) {
-                                            stop = "stop";
-                                            Toast.makeText(getApplicationContext(),"Le nom d'utilisateur renseigné est déjà utilisé, veuillez réessayer.",Toast.LENGTH_LONG).show();
-                                            return;
-                                        }
-
-                                    } else {
-                                        System.out.println("*************************");
-                                        System.out.println(task.getException());
-                                        System.out.println("*************************");
-                                    }
-                                }
-                            });
-
-                    System.out.println("stop value ici");
-                    System.out.println(stop);
-
-                    if(stop.equals("stop")){
-                        return;
-                    }
-
 
                     //push data into database
                         ArrayList<String> followers = new ArrayList<>();
